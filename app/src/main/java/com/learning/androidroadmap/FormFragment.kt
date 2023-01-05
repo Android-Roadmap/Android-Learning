@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.learning.androidroadmap.databinding.FragmentFormBinding
 
@@ -28,28 +27,23 @@ class FormFragment : Fragment() {
                 phoneNum = binding.PhoneNumEt.text.toString()
                 postalCode = binding.postalCodeEt.text.toString()
             }
-            var correctChecks = 5
             if(name.isEmpty()) {
                 binding.nameEt.error=getString(R.string.warning_message_name_field)
-                correctChecks--
+
             }
-            if(uid.isEmpty()) {
+            else if(uid.isEmpty()) {
                 binding.uniqueId.error=getString(R.string.warning_message_uid_field)
-                correctChecks--
             }
-            if(parentsName.isEmpty()) {
+            else if(parentsName.isEmpty()) {
                 binding.ParentsNameET.error=getString(R.string.warning_message_parents_name_field)
-                correctChecks--
             }
-            if(postalCode.isEmpty() || postalCode.length<6) {
-                binding.postalCodeEt.error=getString(R.string.warning_message_postal_code_field)
-                correctChecks--
-            }
-            if(phoneNum.isEmpty() || phoneNum.length<10) {
+            else if(phoneNum.isEmpty() || phoneNum.length<10) {
                 binding.PhoneNumEt.error=getString(R.string.warning_message_phone_number_field)
-                correctChecks--
             }
-            if (correctChecks==5) {
+            else if(postalCode.isEmpty() || postalCode.length<6) {
+                binding.postalCodeEt.error=getString(R.string.warning_message_postal_code_field)
+            }
+            else {
                 val fields = Employee(name, uid, parentsName, phoneNum, postalCode)
                 val bundle = Bundle()
                 bundle.putParcelable(SEND_DATA,fields)
@@ -59,10 +53,6 @@ class FormFragment : Fragment() {
                 transaction?.replace(R.id.fragmentContainerView, detailsConfirmFragment)
                 transaction?.addToBackStack(FRAGMENT_NAME)
                 transaction?.commit()
-            }
-            else
-            {
-                Toast.makeText(context,"Please fill up  all the fields to continue", Toast.LENGTH_SHORT).show()
             }
         }
         return binding.root

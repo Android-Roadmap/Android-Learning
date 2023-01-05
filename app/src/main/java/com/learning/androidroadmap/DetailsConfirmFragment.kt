@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.google.gson.GsonBuilder
@@ -35,7 +36,7 @@ class DetailsConfirmFragment : Fragment() {
             bundle.putStringArrayList(EMP_LIST,employeeDetails)
             val homeFragment = HomeFragment()
             homeFragment.arguments = bundle
-            activity?.supportFragmentManager?.popBackStack("FormFragment",1)
+            activity?.supportFragmentManager?.popBackStack("HomeFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentContainerView, homeFragment)
                 ?.commit()
@@ -85,6 +86,5 @@ class DetailsConfirmFragment : Fragment() {
         const val GET_DATA = "employeeDetails"
         const val EMP_LIST = "employeeData"
         const val EMP_DATA_FILE = "employeeDetails"
-
     }
 }
