@@ -1,18 +1,14 @@
 package com.learning.androidroadmap
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.gson.GsonBuilder
+import androidx.fragment.app.Fragment
 import com.learning.androidroadmap.databinding.FragmentFormBinding
 
-
 class FormFragment : Fragment() {
-    lateinit var binding: FragmentFormBinding
+    private lateinit var binding: FragmentFormBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,42 +20,33 @@ class FormFragment : Fragment() {
             val parentsName = binding.ParentsNameET.text.toString()
             val phoneNum = binding.PhoneNumEt.text.toString() //10 digits and num
             val postalCode = binding.postalCodeEt.text.toString() //6
-
             if(name.isEmpty()) {
-                Toast.makeText(context,"Name field can't be empty",Toast.LENGTH_SHORT).show()
+                binding.nameEt.error="Name field can't be empty"
             }
-            if(uid.isEmpty()) {
-                Toast.makeText(context,"Uid field can't be empty",Toast.LENGTH_SHORT).show()
+            else if(uid.isEmpty()) {
+                binding.uniqueId.error="Uid field can't be empty"
             }
-            if(parentsName.isEmpty()) {
-                Toast.makeText(context,"Parent's name field can't be empty",Toast.LENGTH_SHORT).show()
+            else if(parentsName.isEmpty()) {
+                binding.ParentsNameET.error="Parent's name field can't be empty"
             }
-            if(phoneNum.isEmpty() || phoneNum.length<10) {
-                Toast.makeText(context,"Phone number field can't be empty",Toast.LENGTH_SHORT).show()
+            else if(postalCode.isEmpty() || postalCode.length<6) {
+                binding.postalCodeEt.error="Postal code field can't be empty"
             }
-            if(postalCode.isEmpty() || postalCode.length<6) {
-                Toast.makeText(context,"Postal Code field can't be empty",Toast.LENGTH_SHORT).show()
+            else if(phoneNum.isEmpty() || phoneNum.length<10) {
+                binding.PhoneNumEt.error="Phone no. can't be empty"
             }
             else {
                 val fields = Employee(name, uid, parentsName, phoneNum, postalCode)
-                val jsonString = GsonBuilder().create().toJson(fields)
-                writeNameIntoSharedPreferences(jsonString)
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragmentContainerView, DetailsConfirmFragment())
-                    ?.addToBackStack(null)
-                    ?.commit()
+                val bundle = Bundle()
+                bundle.putParcelable("employeeDetails",fields)
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                val detailsConfirmFragment = DetailsConfirmFragment()
+                detailsConfirmFragment.arguments = bundle
+                transaction?.replace(R.id.fragmentContainerView, detailsConfirmFragment)
+                transaction?.addToBackStack(null)
+                transaction?.commit()
             }
         }
         return binding.root
-    }
-
-    private fun writeNameIntoSharedPreferences(name: String) {
-        val sharedPrefs = this.activity?.getSharedPreferences("confirm_details", Context.MODE_PRIVATE)
-        val editor = sharedPrefs?.edit()
-        editor?.apply {
-            //use employee ID as key
-            putString("confirmation",name) //encryption
-            apply()
-        }
     }
 }
