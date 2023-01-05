@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
         binding.addButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentContainerView, FormFragment())
-                ?.addToBackStack(null)
+                ?.addToBackStack(BACKSTACK_NAME)
                 ?.commit()
         }
         val hashMap = getDataFromSharedPreferences(sharedPreferences)
@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         binding.rview.adapter = FragmentAdapter(nameList) { it, _ , delete->
             if(!delete) {
             val bundle = Bundle()
-            bundle.putParcelable("fetch", it)
+            bundle.putParcelable(KEY, it)
             val detailsFragment = DetailsFragment()
             detailsFragment.arguments = bundle
             activity?.supportFragmentManager?.beginTransaction()
@@ -78,5 +78,9 @@ class HomeFragment : Fragment() {
 
     private fun getDataFromSharedPreferences(encryptedPreferences: SharedPreferences): MutableMap<String, *> {
         return encryptedPreferences.all
+    }
+    companion object {
+        const val BACKSTACK_NAME = "HomeFragment"
+        const val KEY="fetch"
     }
 }

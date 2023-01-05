@@ -23,7 +23,7 @@ class DetailsConfirmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDetailsConfirmBinding.inflate(inflater,container,false)
-        empDetailsFromForm = arguments?.getParcelable("employeeDetails")
+        empDetailsFromForm = arguments?.getParcelable(GET_DATA)
         setFields()
         binding.saveButton.setOnClickListener {
             val sharedPreferences = getEncryptedSharedPreferences()
@@ -32,11 +32,10 @@ class DetailsConfirmFragment : Fragment() {
                 }
             convertToJson(decryptedData)
             val bundle = Bundle()
-            bundle.putStringArrayList("employeeData",employeeDetails)
+            bundle.putStringArrayList(EMP_LIST,employeeDetails)
             val homeFragment = HomeFragment()
             homeFragment.arguments = bundle
-            activity?.supportFragmentManager?.popBackStack() //Pop FormFragment
-            activity?.supportFragmentManager?.popBackStack() //Pop HomeFragment
+            activity?.supportFragmentManager?.popBackStack("FormFragment",1)
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentContainerView, homeFragment)
                 ?.commit()
@@ -53,7 +52,7 @@ class DetailsConfirmFragment : Fragment() {
     private fun getEncryptedSharedPreferences(): SharedPreferences {
         val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         return EncryptedSharedPreferences.create(
-            "employeeDetails", masterKey,
+            EMP_DATA_FILE, masterKey,
             requireContext(),
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
@@ -81,5 +80,11 @@ class DetailsConfirmFragment : Fragment() {
             PostalCodeTextView.text = empDetailsFromForm?.postalCode
             UidTextView.text = empDetailsFromForm?.uid
         }
+    }
+    companion object{
+        const val GET_DATA = "employeeDetails"
+        const val EMP_LIST = "employeeData"
+        const val EMP_DATA_FILE = "employeeDetails"
+
     }
 }

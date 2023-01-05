@@ -14,22 +14,25 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        val empdData = getDataFromBundle()
-        showData(empdData)
+        showData(getDataFromBundle())
         return binding.root
     }
 
-    private fun getDataFromBundle(): Employee {
-        val data = arguments?.getParcelable<Employee>("fetch")
-        return data!!
+    private fun getDataFromBundle(): Employee? {
+        return arguments?.getParcelable(KEY)
     }
 
-    private fun showData(data: Employee) {
-        binding.name.text = data.fullName
-        binding.uid.text = data.uid
-        binding.pname.text = data.parentName
-        binding.pno.text = data.phoneNum
-        binding.pcode.text = data.postalCode
+    private fun showData(data: Employee?) {
+        binding.apply {
+            name.text = data?.fullName
+            uid.text = data?.uid
+            pname.text = data?.parentName
+            pno.text = data?.phoneNum
+            pcode.text = data?.postalCode
+        }
+    }
+    companion object {
+        const val KEY = "fetch"
     }
 }
 

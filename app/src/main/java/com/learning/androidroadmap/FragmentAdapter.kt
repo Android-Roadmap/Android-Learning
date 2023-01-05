@@ -23,7 +23,7 @@ class FragmentAdapter(private val nameList: MutableList<Employee>, val callBack 
         val name = employeeData.fullName
         val uid = employeeData.uid
         holder.titleText.text = name
-        holder.subtitleText.text = "UID : $uid"
+        holder.subtitleText.text = uid
         val cardView = holder.itemView
         cardView.setOnClickListener {
             callBack(employeeData, position, false)
@@ -39,7 +39,6 @@ class FragmentAdapter(private val nameList: MutableList<Employee>, val callBack 
                 true
             }
             popupMenu.show()
-
             true
         }
     }

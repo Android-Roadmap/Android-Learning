@@ -2,5 +2,11 @@
     <string name="app_name">Android RoadMap</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="UID">Uid</string>
+    <string name="warning_message_name_field">Name field can\'t be empty</string>
+    <string name="warning_message_uid_field">Uid field can\'t be empty</string>
+    <string name="warning_message_parents_name_field">Parents name field can\'t be empty</string>
+    <string name="warning_message_phone_number_field">Phone number field can\'t be empty</string>
+    <string name="warning_message_postal_code_field">Postal code field can\'t be empty</string>
+
+
 </resources>
