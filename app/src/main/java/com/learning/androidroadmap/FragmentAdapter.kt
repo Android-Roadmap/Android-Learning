@@ -3,10 +3,11 @@ package com.learning.androidroadmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class FragmentAdapter(val nameList: List<Employee>, val callBack : (Employee, position : Int)-> Unit) : RecyclerView.Adapter<FragmentAdapter.NameHolder>() {
+class FragmentAdapter(private val nameList: MutableList<Employee>, val callBack : (Employee, position : Int, delete : Boolean)-> Unit) : RecyclerView.Adapter<FragmentAdapter.NameHolder>() {
     class NameHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
             val titleText : TextView = containerView.findViewById(R.id.NameEt)
             val subtitleText : TextView = containerView.findViewById(R.id.UidEt)
@@ -18,18 +19,27 @@ class FragmentAdapter(val nameList: List<Employee>, val callBack : (Employee, po
     }
 
     override fun onBindViewHolder(holder: NameHolder, position: Int) {
-        val comboData = nameList[position]
-
-
-        val name = comboData.fullName
-        val uid = comboData.uid
+        val employeeData = nameList[position]
+        val name = employeeData.fullName
+        val uid = employeeData.uid
         holder.titleText.text = name
-        holder.subtitleText.text = "UID - $uid"
-
-        val cardview = holder.itemView
-
-        cardview.setOnClickListener {
-            callBack(comboData, position)
+        holder.subtitleText.text = uid
+        val cardView = holder.itemView
+        cardView.setOnClickListener {
+            callBack(employeeData, position, false)
+        }
+        cardView.setOnLongClickListener {
+            val popupMenu = PopupMenu(it.context, it)
+            popupMenu.inflate(R.menu.menu_long_press)
+            popupMenu.setOnMenuItemClickListener{
+                println("Will remove $name")
+                nameList.removeAt(position)
+                notifyItemRemoved(position)
+                callBack(employeeData, position, true)
+                true
+            }
+            popupMenu.show()
+            true
         }
     }
 
