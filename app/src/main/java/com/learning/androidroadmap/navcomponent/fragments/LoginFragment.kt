@@ -22,10 +22,10 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        binding.loginButton.setOnClickListener {
+        binding.userLoginButton.setOnClickListener {
             binding.apply {
-                loginEmail = loginEmailEditText.text.toString()
-                loginPassword = loginPasswordEditText.text.toString()
+                loginEmail = userEmailLogin.text.toString()
+                loginPassword = userPasswordLogin.text.toString()
             }
             if (loginEmail.isNotEmpty()) {
                 if (loginPassword.isNotEmpty()) {
@@ -37,14 +37,14 @@ class LoginFragment : Fragment() {
                         Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    binding.loginPasswordEditText.error = "Empty field not allowed"
+                    binding.userPasswordLogin.error = "Empty field not allowed"
                 }
 
             } else {
-                binding.loginEmailEditText.error = "Invalid entry"
+                binding.userEmailLogin.error = "Invalid entry"
             }
         }
-        binding.registerText.setOnClickListener {
+        binding.signUpTextView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
         return binding.root
