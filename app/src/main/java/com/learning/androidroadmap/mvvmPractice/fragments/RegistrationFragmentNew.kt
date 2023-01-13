@@ -3,81 +3,55 @@ package com.learning.androidroadmap.mvvmPractice.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.learning.androidroadmap.R
 import com.learning.androidroadmap.databinding.FragmentRegistrationBinding
-import com.learning.androidroadmap.mvvmPractice.viewModels.ViewModelRegistrationFragment
-
+import com.learning.androidroadmap.mvvmPractice.viewModels.RegistrationViewModel
 
 class RegistrationFragmentNew : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
+    private lateinit var viewModel: RegistrationViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        binding.userRegisterButton.setOnClickListener {
-            val viewModel = ViewModelProvider(this)[ViewModelRegistrationFragment::class.java]
-            binding.userRegisterButton.setOnClickListener {
-                viewModel.setContext(requireContext())
-                val email = binding.userEmailSignUp.text.toString()
-                val password = binding.userPasswordSignUp.text.toString()
-                val confirmPassword = binding.userConfirmPassword.text.toString()
-                viewModel.getCredentials(email, password, confirmPassword)
-                viewModel._emailAlreadyExists.observe(viewLifecycleOwner){
-                    Toast.makeText(context,"Email already exists", Toast.LENGTH_SHORT).show()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
+
+        binding.apply {
+            userEmailSignUp.addTextChangedListener(object: TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    //No-op
                 }
-                viewModel.CanInsert.observe(viewLifecycleOwner){
-                    Toast.makeText(context,"Successfully Registered!", Toast.LENGTH_SHORT).show()
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    viewModel.checkEmail(p0.toString())
                 }
-            }
-            viewModel._passwordLengthCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password length can't be less than 8"
-            }
-            viewModel._passwordNumberCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password must contain atleast one number"
-            }
-            viewModel._passwordLowerCaseCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password must contain atleast one lower-case character"
-            }
-            viewModel._passwordUpperCaseCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password must contain atleast one upper-case character"
-            }
-            viewModel._passwordSpecialCharacterCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password must contain atleast one special character"
-            }
-            viewModel._passwordMatchCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Passwords don't match"
-                binding.userConfirmPassword.error = "Passwords don't match"
-            }
-            viewModel._passwordEmptyCheck.observe(viewLifecycleOwner){
-                binding.userPasswordSignUp.error = "Password can't be empty"
-            }
-            viewModel._emailValidChecker.observe(viewLifecycleOwner){
-                binding.userEmailSignUp.error = "Invalid email"
-            }
 
-            binding.apply {
-                userEmailSignUp.addTextChangedListener(object: TextWatcher{
-                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        TODO("Not yet implemented")
-                    }
+                override fun afterTextChanged(p0: Editable?) {
+                    //No-op
+                }
+            })
+        }
 
-                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                       viewModel.checkEmail(p0.toString())
-                    }
-
-                    override fun afterTextChanged(p0: Editable?) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
+        viewModel.emailValidChecker.observe(viewLifecycleOwner){ isValid ->
+            binding.userEmailSignUp.apply {
+                error = if(!isValid){
+                    getString(R.string.email_not_valid)
+                }else{
+                    null
+                }
             }
         }
-        return binding.root
     }
 }

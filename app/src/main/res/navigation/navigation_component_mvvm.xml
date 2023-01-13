@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_component_mvvm"
     app:startDestination="@id/loginFragmentNew">
 
     <fragment
         android:id="@+id/loginFragmentNew"
         android:name="com.learning.androidroadmap.mvvmPractice.fragments.LoginFragmentNew"
-        android:label="LoginFragmentNew" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragmentNew_to_registrationFragmentNew"
             app:destination="@id/registrationFragmentNew" />
@@ -15,5 +17,6 @@
     <fragment
         android:id="@+id/registrationFragmentNew"
         android:name="com.learning.androidroadmap.mvvmPractice.fragments.RegistrationFragmentNew"
-        android:label="RegistrationFragmentNew" />
+        android:label="Registration"
+        tools:layout="@layout/fragment_registration"/>
 </navigation>
