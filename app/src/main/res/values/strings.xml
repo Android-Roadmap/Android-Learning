@@ -7,6 +7,7 @@
     <string name="warning_message_parents_name_field">Parents name field can\'t be empty</string>
     <string name="warning_message_phone_number_field">Phone number field can\'t be empty</string>
     <string name="warning_message_postal_code_field">Postal code field can\'t be empty</string>
+    <string name="email_not_valid">Invalid Email</string>
 
 
 </resources>

@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.learning.androidroadmap.R
-import com.learning.androidroadmap.databinding.ActivityMainMvvmBinding
 import com.learning.androidroadmap.databinding.FragmentLoginBinding
-import com.learning.androidroadmap.mvvmPractice.viewModels.ViewModelLoginFragment
-import com.learning.androidroadmap.navcomponent.fragments.LoginFragment
+import com.learning.androidroadmap.mvvmPractice.viewModels.LoginViewModel
 
 class LoginFragmentNew : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -20,7 +18,7 @@ class LoginFragmentNew : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val viewModel = ViewModelProvider(this)[ViewModelLoginFragment::class.java]
+        val viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding.userLoginButton.setOnClickListener {
 //            val name = binding.userEmailLogin.text.toString()
 //            val password = binding.userPasswordLogin.text.toString()
