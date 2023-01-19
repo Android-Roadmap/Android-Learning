@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+//import androidx.navigation.ui.AppBarConfiguration
+//import androidx.navigation.ui.setupActionBarWithNavController
 import com.learning.androidroadmap.R
 import com.learning.androidroadmap.databinding.ActivityMainMvvmBinding
 
@@ -23,9 +25,9 @@ class MainActivityMvvm : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragment_nav_host)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController,appBarConfiguration)
-        /*navController.addOnDestinationChangedListener { _, _, _ ->
+        navController.addOnDestinationChangedListener { _, _, _ ->
             supportActionBar?.title = navController.currentDestination?.label
-        }*/
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

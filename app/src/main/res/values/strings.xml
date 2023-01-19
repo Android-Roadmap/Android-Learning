@@ -8,6 +8,9 @@
     <string name="warning_message_phone_number_field">Phone number field can\'t be empty</string>
     <string name="warning_message_postal_code_field">Postal code field can\'t be empty</string>
     <string name="email_not_valid">Invalid Email</string>
+    <string name="password_not_valid">Password should be minimum 8 characters and alphanumeric</string>
+    <string name="empty">* Required</string>
+    <string name="exists">Email already exists</string>
 
 
 </resources>

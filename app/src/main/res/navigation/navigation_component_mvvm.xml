@@ -18,5 +18,9 @@
         android:id="@+id/registrationFragmentNew"
         android:name="com.learning.androidroadmap.mvvmPractice.fragments.RegistrationFragmentNew"
         android:label="Registration"
-        tools:layout="@layout/fragment_registration"/>
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragmentNew_to_loginFragmentNew"
+            app:destination="@id/loginFragmentNew" />
+    </fragment>
 </navigation>

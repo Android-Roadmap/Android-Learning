@@ -67,11 +67,24 @@
                     android:minHeight="48dp"
                     android:paddingStart="20dp"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/user_password_sign_up"
+                    app:layout_constraintBottom_toTopOf="@+id/requiredMessageEmail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/requiredMessageEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_email_sign_up"
+                    app:layout_constraintBottom_toTopOf="@id/user_password_sign_up"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="viewEnd"
+                    android:textSize="10sp"
+                    android:textColor="@color/red"/>
 
                 <EditText
                     android:id="@+id/user_password_sign_up"
@@ -91,11 +104,24 @@
                     android:minHeight="48dp"
                     android:paddingStart="20dp"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/user_confirm_password"
+                    app:layout_constraintBottom_toTopOf="@+id/requiredMessagePassword"
                     app:layout_constraintEnd_toEndOf="@+id/user_email_sign_up"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="@+id/user_email_sign_up"
-                    app:layout_constraintTop_toBottomOf="@+id/user_email_sign_up" />
+                    app:layout_constraintTop_toBottomOf="@+id/requiredMessageEmail" />
+
+                <TextView
+                    android:id="@+id/requiredMessagePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/red"
+                    android:textSize="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/user_confirm_password"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_password_sign_up" />
 
                 <EditText
                     android:id="@+id/user_confirm_password"
@@ -115,8 +141,22 @@
                     app:layout_constraintBottom_toTopOf="@+id/user_register_button"
                     app:layout_constraintEnd_toEndOf="@+id/user_password_sign_up"
                     app:layout_constraintStart_toStartOf="@+id/user_password_sign_up"
-                    app:layout_constraintTop_toBottomOf="@+id/user_password_sign_up" />
+                    app:layout_constraintTop_toBottomOf="@+id/requiredMessagePassword" />
 
+
+                <TextView
+                    android:id="@+id/requiredMessageConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/red"
+                    android:textSize="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/user_register_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_confirm_password"
+                    app:layout_constraintVertical_bias="0.257" />
 
                 <Button
                     android:id="@+id/user_register_button"
