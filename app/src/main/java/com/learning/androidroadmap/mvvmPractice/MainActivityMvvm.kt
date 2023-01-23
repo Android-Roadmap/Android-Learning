@@ -11,12 +11,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 //import androidx.navigation.ui.setupActionBarWithNavController
 import com.learning.androidroadmap.R
 import com.learning.androidroadmap.databinding.ActivityMainMvvmBinding
+import org.koin.android.ext.android.inject
 
 class MainActivityMvvm : AppCompatActivity() {
     private lateinit var binding: ActivityMainMvvmBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMvvmBinding.inflate(layoutInflater)

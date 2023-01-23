@@ -45,7 +45,7 @@ class LoginFragmentNew : Fragment() {
                 binding.userPasswordLogin.error = "Incorrect password"
             }
             else if(it == true){
-                Toast.makeText(context,"Correct credentials",Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragmentNew_to_calculatorFragment)
             }
         }
 

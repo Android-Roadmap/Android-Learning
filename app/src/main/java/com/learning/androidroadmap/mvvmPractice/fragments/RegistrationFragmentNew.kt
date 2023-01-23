@@ -28,8 +28,7 @@ class RegistrationFragmentNew : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, getViewModelFactory { RegistrationViewModel(requireContext()) }).get(RegistrationViewModel::class.java)
-
+        viewModel = ViewModelProvider(this, getViewModelFactory { RegistrationViewModel(requireContext()) })[RegistrationViewModel::class.java]
         binding.apply {
             userEmailSignUp.addTextChangedListener(object: TextWatcher{
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -76,7 +75,6 @@ class RegistrationFragmentNew : Fragment() {
             })
         }
 
-
         viewModel.emailValidChecker.observe(viewLifecycleOwner){ isValid ->
             binding.userEmailSignUp.apply {
                 error = if(isValid.equals("Invalid")){
@@ -107,8 +105,6 @@ class RegistrationFragmentNew : Fragment() {
 
         }
 
-
-
         viewModel.confirmPasswordChecker.observe(viewLifecycleOwner){ isValid ->
             if (isValid == "Invalid"){
                 binding.userConfirmPassword.error = "Passwords are not matching"
@@ -117,7 +113,6 @@ class RegistrationFragmentNew : Fragment() {
                 binding.requiredMessageConfirmPassword.text = getString(R.string.empty)
             }
         }
-
 
         binding.userRegisterButton.setOnClickListener {
             viewModel.checkForEmpty(binding.userEmailSignUp.text.toString(),
