@@ -63,6 +63,7 @@ class RegistrationViewModel(val context : Context) : ViewModel() {
         if (_emailValidChecker.value == "Valid" && _passwordChecker.value == "Valid" && _confirmPasswordChecker.value == "Valid"){
             if(CredsRepo.getFromSharedPreferences(email,context)){
                 CredsRepo.addToSharedPreferences(email, password, context)
+                CredsRepo.clearSavedState(context)
                 _switchFragment.value = true
             }else{
                 _emailValidChecker.value = "Exists"

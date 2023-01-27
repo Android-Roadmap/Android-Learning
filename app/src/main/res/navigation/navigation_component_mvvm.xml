@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragmentNew_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_loginFragmentNew_to_contentData2"
+            app:destination="@id/contentData2" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragmentNew"
@@ -37,4 +40,9 @@
             android:id="@+id/action_calculatorFragment_to_loginFragmentNew"
             app:destination="@id/loginFragmentNew" />
     </fragment>
+    <fragment
+        android:id="@+id/contentData2"
+        android:name="com.learning.androidroadmap.mvvmPractice.fragments.ContentDataFragment"
+        android:label="Content"
+        tools:layout="@layout/fragment_content_data" />
 </navigation>

@@ -11,6 +11,7 @@
     <string name="password_not_valid">Password should be minimum 8 characters and alphanumeric</string>
     <string name="empty">* Required</string>
     <string name="exists">Email already exists</string>
-
-
+    <string name ="offline">404 :(</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
 </resources>

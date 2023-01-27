@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.learning.androidroadmap.R
@@ -25,10 +24,26 @@ class LoginFragmentNew : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewModel = ViewModelProvider(this, getViewModelFactory { LoginViewModel(requireContext()) })[LoginViewModel::class.java]
+
+        viewModel.checkSavedState()
+
+        viewModel.checkStateSaved.observe(viewLifecycleOwner){
+            if (it!= "No data"){
+                binding.or.visibility = View.VISIBLE
+                binding.savedLoginButton.visibility = View.VISIBLE
+                binding.savedLoginButton.text = "Login using $it"
+            }
+        }
+
+        binding.savedLoginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragmentNew_to_contentData2)
+        }
+
         binding.userLoginButton.setOnClickListener {
             val name = binding.userEmailLogin.text.toString()
             val password = binding.userPasswordLogin.text.toString()
-            viewModel.getDetails(name, password)
+            val checkSave = binding.rememberMeCheck.isChecked
+            viewModel.getDetails(name, password, checkSave)
         }
         binding.signUpTextView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragmentNew_to_registrationFragmentNew)
@@ -45,10 +60,12 @@ class LoginFragmentNew : Fragment() {
                 binding.userPasswordLogin.error = "Incorrect password"
             }
             else if(it == true){
-                findNavController().navigate(R.id.action_loginFragmentNew_to_calculatorFragment)
+                findNavController().navigate(R.id.action_loginFragmentNew_to_contentData2)
             }
         }
 
         super.onViewCreated(view, savedInstanceState)
     }
+
+
 }

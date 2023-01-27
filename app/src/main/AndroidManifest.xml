@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.learning.androidroadmap">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".mvvmPractice.applicationclass.ApplicationMvvm"
         android:allowBackup="true"
