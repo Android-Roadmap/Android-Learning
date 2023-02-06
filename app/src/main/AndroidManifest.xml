@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.learning.androidroadmap">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".mvvmPractice.applicationclass.ApplicationMvvm"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,10 +18,13 @@
         android:theme="@style/Theme.AndroidRoadMap"
         tools:targetApi="31">
         <activity
+            android:name="com.learning.androidroadmap.navcomponent.ActivityNavigationComponent"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.learning.androidroadmap.navcomponent.ActivityNavigationComponent"
+            android:name="com.learning.androidroadmap.mvvmPractice.MainActivityMvvm"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

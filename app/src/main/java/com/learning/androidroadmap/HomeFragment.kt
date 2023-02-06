@@ -19,21 +19,21 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         activity?.supportFragmentManager?.popBackStack()
-        val sharedPreferences = setEncryptedPreferences(requireContext())
+//        val sharedPreferences = setEncryptedPreferences(requireContext())
         binding.addButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentContainerView, FormFragment())
                 ?.addToBackStack(BACKSTACK_NAME)
                 ?.commit()
         }
-        val hashMap = getDataFromSharedPreferences(sharedPreferences)
-        val empData = convertHashMapToList(hashMap)
-        if (empData.isEmpty()) {
-            Toast.makeText(context, "No data", Toast.LENGTH_SHORT).show()
-        } else {
-            val nameList = extractNames(empData)
-            setupRecyclerView(nameList, sharedPreferences)
-        }
+//        val hashMap = getDataFromSharedPreferences(sharedPreferences)
+//        val empData = convertHashMapToList(hashMap)
+//        if (empData.isEmpty()) {
+//            Toast.makeText(context, "No data", Toast.LENGTH_SHORT).show()
+//        } else {
+//            val nameList = extractNames(empData)
+//            setupRecyclerView(nameList, sharedPreferences)
+//        }
         return binding.root
     }
 
