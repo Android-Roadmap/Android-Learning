@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.learning.androidroadmap.mvvmPractice.interfaces.PlaceHolder
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 fun getNewEncryptedPreferences(context: Context): SharedPreferences {
     val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -27,8 +30,11 @@ fun savedLoginInfo(context: Context): SharedPreferences {
     )
 }
 
-inline fun <V: ViewModel> getViewModelFactory(crossinline getViewModelObject: () -> V): ViewModelProvider.Factory {
-    return object : ViewModelProvider.Factory{
+
+
+
+inline fun <V : ViewModel> getViewModelFactory(crossinline getViewModelObject: () -> V): ViewModelProvider.Factory {
+    return object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return getViewModelObject() as T
         }

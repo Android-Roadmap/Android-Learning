@@ -1,6 +1,5 @@
 package com.learning.androidroadmap.mvvmPractice.viewModels
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.learning.androidroadmap.mvvmPractice.CredsRepo
 import java.util.regex.Pattern
 
-class RegistrationViewModel(val context : Context) : ViewModel() {
+class RegistrationViewModel : ViewModel() {
     private var pwd = ""
     private val _emailValidChecker = MutableLiveData<String>()
     val emailValidChecker : LiveData<String> = _emailValidChecker
@@ -19,7 +18,7 @@ class RegistrationViewModel(val context : Context) : ViewModel() {
     private val _switchFragment = MutableLiveData<Boolean>()
     val switchFragment : LiveData<Boolean> = _switchFragment
 
-    fun checkEmail(email: String) {
+    fun checkEmailIsValid(email: String) {
         val result = email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
         if(result){
             _emailValidChecker.value = "Valid"
@@ -29,7 +28,7 @@ class RegistrationViewModel(val context : Context) : ViewModel() {
         }
     }
 
-    fun validatePassword(password : String){
+    fun checkPasswordIsValid(password : String){
         pwd = password
         val regex = "^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$"
         val p = Pattern.compile(regex)
@@ -42,7 +41,7 @@ class RegistrationViewModel(val context : Context) : ViewModel() {
         }
     }
 
-    fun validateConfirmPassword(confirmPassword : String){
+    fun checkPasswordMatches(confirmPassword : String){
         if(confirmPassword==pwd){
             _confirmPasswordChecker.value = "Valid"
         }else{
@@ -61,9 +60,9 @@ class RegistrationViewModel(val context : Context) : ViewModel() {
             _confirmPasswordChecker.value = "Empty"
         }
         if (_emailValidChecker.value == "Valid" && _passwordChecker.value == "Valid" && _confirmPasswordChecker.value == "Valid"){
-            if(CredsRepo.getFromSharedPreferences(email,context)){
-                CredsRepo.addToSharedPreferences(email, password, context)
-                CredsRepo.clearSavedState(context)
+            if(CredsRepo.getCredential(email).isNullOrEmpty()){
+                CredsRepo.registerUser(email, password)
+                CredsRepo.clearSavedState()
                 _switchFragment.value = true
             }else{
                 _emailValidChecker.value = "Exists"

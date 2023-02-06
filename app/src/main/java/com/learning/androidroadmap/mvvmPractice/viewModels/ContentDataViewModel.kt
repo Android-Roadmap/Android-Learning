@@ -1,47 +1,50 @@
 package com.learning.androidroadmap.mvvmPractice.viewModels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learning.androidroadmap.mvvmPractice.CredsRepo
-import com.learning.androidroadmap.mvvmPractice.applicationclass.ComponentMvvm
-import com.learning.androidroadmap.mvvmPractice.data_class.UserData
+import com.learning.androidroadmap.mvvmPractice.data_class.PostsData
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
-class ContentDataViewModel(val context:Context) : ViewModel() {
-    private var result = listOf<UserData>()
-    private var _data = MutableLiveData<List<UserData>>()
-    var data: LiveData<List<UserData>> = _data
+class ContentDataViewModel : ViewModel(), KoinComponent {
+    private var result = listOf<PostsData>()
+    private var _data = MutableLiveData<List<PostsData>>()
+    var data: LiveData<List<PostsData>> = _data
     private var _statusCode = MutableLiveData<Int>()
     var statusCode: LiveData<Int> = _statusCode
-    private var _cache = MutableLiveData<List<UserData>>()
-    var cache: LiveData<List<UserData>> = _cache
-    private var componentMvvm = ComponentMvvm()
+    private var _statusCodeNotFound = MutableLiveData<Int>()
+    var statusCodeNotFound: LiveData<Int> = _statusCodeNotFound
+    private var _cache = MutableLiveData<List<PostsData>>()
+    var cache: LiveData<List<PostsData>> = _cache
 
     fun getDataFromRepository() {
-        val retrofit = componentMvvm.retrofit2.getRetrofit()
         viewModelScope.launch {
-            result = CredsRepo.getDataFromApi(retrofit)
+            result = CredsRepo.getDataFromApi()
             if (result.isEmpty()){
-                _statusCode.value = NOT_FOUND
+                _statusCodeNotFound.value = NOT_FOUND
             }else {
                 _data.value = result
                 _statusCode.value = SUCCESS
                 //push data to database
-                CredsRepo.insertDataToDatabase(result, context)
+                CredsRepo.insertDataToDatabase(result)
             }
         }
     }
 
     fun checkForCache(){
         viewModelScope.launch {
-            val result = CredsRepo.readDataFromDatabase(context)
+            val result = CredsRepo.readDataFromDatabase()
             if(result.isNotEmpty()){
                 _cache.value = result
             }
         }
+    }
+
+    fun logout(){
+        CredsRepo.clearSavedState()
     }
 
     companion object {

@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/fragment_form.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19101792487545288" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.271286231884058" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.26767902656539044" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.29833869584109807" />
         <entry key="app/src/main/res/layout/fragment_login_new.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/fragment_login_updated.xml" value="0.24723510742187502" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.4981149798062578" />
@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/item_row.xml" value="0.22782208251953123" />
         <entry key="app/src/main/res/layout/item_row_layout_placeholder.xml" value="0.168116256189275" />
         <entry key="app/src/main/res/layout/item_row_updated.xml" value="0.3339614868164062" />
+        <entry key="app/src/main/res/menu/menu_action_bar.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/menu/menu_long_press.xml" value="0.1671875" />
         <entry key="app/src/main/res/menu/quick_actions_menu.xml" value="0.23020833333333332" />
       </map>

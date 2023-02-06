@@ -42,7 +42,7 @@ class CalculatorFragment : Fragment() {
                 }
             }
             logout.setOnClickListener {
-                CredsRepo.clearSavedState(requireContext())
+                CredsRepo.clearSavedState()
                 Toast.makeText(context, "Logging out", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_calculatorFragment_to_loginFragmentNew)
             }

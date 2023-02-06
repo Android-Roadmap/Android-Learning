@@ -28,7 +28,7 @@ class RegistrationFragmentNew : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, getViewModelFactory { RegistrationViewModel(requireContext()) })[RegistrationViewModel::class.java]
+        viewModel = ViewModelProvider(this, getViewModelFactory { RegistrationViewModel() })[RegistrationViewModel::class.java]
         binding.apply {
             userEmailSignUp.addTextChangedListener(object: TextWatcher{
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -36,7 +36,7 @@ class RegistrationFragmentNew : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    viewModel.checkEmail(p0.toString())
+                    viewModel.checkEmailIsValid(p0.toString())
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
@@ -50,7 +50,7 @@ class RegistrationFragmentNew : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    viewModel.validatePassword(p0.toString())
+                    viewModel.checkPasswordIsValid(p0.toString())
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
@@ -65,7 +65,7 @@ class RegistrationFragmentNew : Fragment() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    viewModel.validateConfirmPassword(p0.toString())
+                    viewModel.checkPasswordMatches(p0.toString())
                 }
 
                 override fun afterTextChanged(p0: Editable?) {

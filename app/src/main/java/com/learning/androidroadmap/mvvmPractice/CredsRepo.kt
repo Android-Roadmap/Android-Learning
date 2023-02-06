@@ -1,69 +1,68 @@
 package com.learning.androidroadmap.mvvmPractice
 
-import android.content.Context
-import com.learning.androidroadmap.mvvmPractice.data_class.UserData
+import android.content.SharedPreferences
+import com.learning.androidroadmap.mvvmPractice.data_class.PostsData
 import com.learning.androidroadmap.mvvmPractice.databasecomponents.UserDatabase
 import com.learning.androidroadmap.mvvmPractice.databasecomponents.UserEntity
 import com.learning.androidroadmap.mvvmPractice.interfaces.PlaceHolder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.qualifier.named
+import retrofit2.Retrofit
 import java.io.IOException
 
-object CredsRepo {
-    private lateinit var userDb : UserDatabase
-    fun addToSharedPreferences(email: String, password: String, context: Context) {
-        val sharedPreferences = getNewEncryptedPreferences(context)
-        sharedPreferences.edit().apply {
+object CredsRepo: KoinComponent {
+    private val retrofit : Retrofit by inject()
+    private val userDb : UserDatabase by inject()
+    private val userCredPref : SharedPreferences by inject(named(USER_CRED_PREF))
+    private val preferencesEditor = userCredPref.edit()
+    private val loginPreference : SharedPreferences by inject(named(LOGIN_PREF))
+    private val placeHolder: PlaceHolder = retrofit.create(PlaceHolder::class.java)
+
+    fun registerUser(email: String, password: String) {
+        preferencesEditor.apply {
             putString(email, password)
-        }
-            .apply()
+        }.apply()
     }
 
-    fun getFromSharedPreferences(email: String, _context: Context): Boolean {
-        val data = getNewEncryptedPreferences(_context).getString(email, null)
-        return data.isNullOrEmpty()
+    fun getCredential(email: String): String? {
+        return  userCredPref.getString(email, null)
     }
 
-    fun checkPwdAndMail(email: String, context: Context): String? {
-        return getNewEncryptedPreferences(context).getString(email, null)
+    fun addToSavedState(hasRememberMe: Boolean) {
+        loginPreference.edit().apply {
+            putBoolean(LOGIN_STATE, hasRememberMe)
+        }.apply()
     }
 
-    fun addToSavedState(email: String, context: Context) {
-        val sharedPreferences = savedLoginInfo(context)
-        sharedPreferences.edit().apply {
-            putString("SavedCred", email)
-        }
-            .apply()
+    fun checkSavedState(): Boolean {
+        return loginPreference.getBoolean(LOGIN_STATE, false)
     }
 
-    fun checkSavedState(context: Context): String {
-        return savedLoginInfo(context).getString("SavedCred", null) ?: "No data"
+    fun clearSavedState() {
+        loginPreference.edit().apply {
+            putBoolean(LOGIN_STATE, false)
+        }.apply()
     }
 
-    fun clearSavedState(context: Context) {
-        val sharedPreferences = savedLoginInfo(context)
-        sharedPreferences.edit().apply {
-            clear()
-        }
-            .apply()
-    }
-
-    suspend fun getDataFromApi(retrofit: PlaceHolder): List<UserData> {
-        var data = listOf<UserData>()
-        val xyz = CoroutineScope(IO).launch {
+    suspend fun getDataFromApi(): List<PostsData> {
+        var data = listOf<PostsData>()
+        val job = CoroutineScope(IO).launch {
             data = try{
-                retrofit.getData()
+                placeHolder.getData()
             } catch (e : IOException){
                 emptyList()
             }
         }
-        xyz.join()
+        job.join()
         return data
     }
 
-    fun insertDataToDatabase(result: List<UserData>, context: Context) {
+    fun insertDataToDatabase(result: List<PostsData>) {
         CoroutineScope(IO).launch{
-            userDb= UserDatabase.getDatabase(context)
             for(i in result.indices){
                 val data = UserEntity(
                     result[i].id,
@@ -75,13 +74,12 @@ object CredsRepo {
         }
     }
 
-    suspend fun readDataFromDatabase(context: Context): MutableList<UserData> {
-        val result = mutableListOf<UserData>()
-       val xyz = CoroutineScope(IO).launch {
-            userDb = UserDatabase.getDatabase(context)
+    suspend fun readDataFromDatabase(): MutableList<PostsData> {
+        val result = mutableListOf<PostsData>()
+       val job = CoroutineScope(IO).launch {
             val data = userDb.userDao().getAll()
             for (i in data.indices){
-                val data2 = UserData(
+                val data2 = PostsData(
                     i.toString(),
                     data[i].id,
                     data[i].title,
@@ -90,7 +88,7 @@ object CredsRepo {
                 result.add(data2)
             }
         }
-        xyz.join()
+        job.join()
         return result
         }
 }

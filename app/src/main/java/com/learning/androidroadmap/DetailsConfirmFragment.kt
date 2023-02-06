@@ -65,12 +65,12 @@ class DetailsConfirmFragment : Fragment() {
          employeeDetails: Employee,
          sharedPref: SharedPreferences
      ) {
-         val sharedPrefHome = setEncryptedPreferences(requireContext())
-        sharedPrefHome.edit().apply{
-            putString(employeeId, GsonBuilder().create().toJson(employeeDetails))
-        }
-            .apply()
-        decryptedData = sharedPref.all
+//         val sharedPrefHome = setEncryptedPreferences(requireContext())
+//        sharedPrefHome.edit().apply{
+//            putString(employeeId, GsonBuilder().create().toJson(employeeDetails))
+//        }
+//            .apply()
+//        decryptedData = sharedPref.all
     }
 
     private fun setFields() {

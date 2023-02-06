@@ -1,8 +1,9 @@
 package com.learning.androidroadmap.mvvmPractice.applicationclass
 
 import android.app.Application
-import com.learning.androidroadmap.mvvmPractice.modules.calculatorModule
-import com.learning.androidroadmap.mvvmPractice.modules.retrofitModule
+import com.learning.androidroadmap.mvvmPractice.modules.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class ApplicationMvvm : Application(){
@@ -10,7 +11,16 @@ class ApplicationMvvm : Application(){
             super.onCreate()
 
             startKoin{
-                modules(calculatorModule, retrofitModule)
+                androidContext(this@ApplicationMvvm)
+                androidLogger()
+                modules(
+                    calculatorModule,
+                    retrofitModule,
+                    dbModule,
+                    sharedPreferencesModule,
+                    getDataFromSharedPreferencesModule,
+                    getRetrofit
+                )
             }
         }
 }

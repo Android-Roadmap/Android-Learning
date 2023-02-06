@@ -23,22 +23,9 @@ class LoginFragmentNew : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewModel = ViewModelProvider(this, getViewModelFactory { LoginViewModel(requireContext()) })[LoginViewModel::class.java]
-
-        viewModel.checkSavedState()
-
-        viewModel.checkStateSaved.observe(viewLifecycleOwner){
-            if (it!= "No data"){
-                binding.or.visibility = View.VISIBLE
-                binding.savedLoginButton.visibility = View.VISIBLE
-                binding.savedLoginButton.text = "Login using $it"
-            }
-        }
-
-        binding.savedLoginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragmentNew_to_contentData2)
-        }
-
+        val viewModel = ViewModelProvider(
+            this,
+            getViewModelFactory { LoginViewModel() })[LoginViewModel::class.java]
         binding.userLoginButton.setOnClickListener {
             val name = binding.userEmailLogin.text.toString()
             val password = binding.userPasswordLogin.text.toString()
@@ -49,21 +36,18 @@ class LoginFragmentNew : Fragment() {
             findNavController().navigate(R.id.action_loginFragmentNew_to_registrationFragmentNew)
         }
 
-        viewModel.alreadyExists.observe(viewLifecycleOwner){
-            if(it == false){
+        viewModel.alreadyExists.observe(viewLifecycleOwner) {
+            if (it == false) {
                 binding.userEmailLogin.error = "Email not registered"
             }
         }
 
-        viewModel.correctPassword.observe(viewLifecycleOwner){
-            if(it == false){
-                binding.userPasswordLogin.error = "Incorrect password"
-            }
-            else if(it == true){
+        viewModel.loginState.observe(viewLifecycleOwner) { isLoggedin ->
+            if (isLoggedin)
                 findNavController().navigate(R.id.action_loginFragmentNew_to_contentData2)
-            }
+            else
+                binding.userPasswordLogin.error = "Incorrect password"
         }
-
         super.onViewCreated(view, savedInstanceState)
     }
 
