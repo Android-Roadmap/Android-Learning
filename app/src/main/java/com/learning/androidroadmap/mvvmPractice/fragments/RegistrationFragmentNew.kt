@@ -56,7 +56,6 @@ class RegistrationFragmentNew : Fragment() {
                 override fun afterTextChanged(p0: Editable?) {
                     //nothing
                 }
-
             })
 
             userConfirmPassword.addTextChangedListener(object : TextWatcher{
@@ -71,7 +70,6 @@ class RegistrationFragmentNew : Fragment() {
                 override fun afterTextChanged(p0: Editable?) {
                     //nothing
                 }
-
             })
         }
 
@@ -102,7 +100,6 @@ class RegistrationFragmentNew : Fragment() {
             if(isValid.equals("Empty")){
                 binding.requiredMessagePassword.text = getString(R.string.empty)
             }
-
         }
 
         viewModel.confirmPasswordChecker.observe(viewLifecycleOwner){ isValid ->
@@ -124,6 +121,5 @@ class RegistrationFragmentNew : Fragment() {
                 findNavController().navigate(R.id.action_registrationFragmentNew_to_loginFragmentNew)
             }
         }
-
     }
 }

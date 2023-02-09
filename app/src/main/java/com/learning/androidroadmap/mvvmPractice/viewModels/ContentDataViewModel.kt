@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learning.androidroadmap.mvvmPractice.CredsRepo
 import com.learning.androidroadmap.mvvmPractice.data_class.PostsData
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
 class ContentDataViewModel : ViewModel(), KoinComponent {
-    private var result = listOf<PostsData>()
     private var _data = MutableLiveData<List<PostsData>>()
     var data: LiveData<List<PostsData>> = _data
     private var _statusCode = MutableLiveData<Int>()
@@ -20,17 +22,17 @@ class ContentDataViewModel : ViewModel(), KoinComponent {
     private var _cache = MutableLiveData<List<PostsData>>()
     var cache: LiveData<List<PostsData>> = _cache
 
-    fun getDataFromRepository() {
+    fun getDataFromAPIViaFlow(){
         viewModelScope.launch {
-            result = CredsRepo.getDataFromApi()
-            if (result.isEmpty()){
-                _statusCodeNotFound.value = NOT_FOUND
-            }else {
-                _data.value = result
-                _statusCode.value = SUCCESS
-                //push data to database
-                CredsRepo.insertDataToDatabase(result)
-            }
+            CredsRepo.fetchDataFromApi()
+                .catch {
+                    _statusCodeNotFound.value = NOT_FOUND
+                }
+                .collect{
+                    _data.value = it
+                    _statusCode.value = SUCCESS
+                    CredsRepo.insertDataToDatabase(it)
+                }
         }
     }
 
@@ -51,5 +53,4 @@ class ContentDataViewModel : ViewModel(), KoinComponent {
         const val SUCCESS = 200
         const val NOT_FOUND = 404
     }
-
 }

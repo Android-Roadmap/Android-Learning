@@ -31,7 +31,8 @@ class ContentDataFragment : Fragment() {
         postAdapter = AdapterMvvm()
         binding.recyclerViewMvvm.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerViewMvvm.adapter = postAdapter
-        viewModel.getDataFromRepository()
+//        viewModel.getDataFromRepository()
+        viewModel.getDataFromAPIViaFlow()
 
         viewModel.data.observe(viewLifecycleOwner){
             postAdapter.collectData(it)

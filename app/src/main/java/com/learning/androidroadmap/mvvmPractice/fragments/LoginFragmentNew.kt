@@ -50,6 +50,4 @@ class LoginFragmentNew : Fragment() {
         }
         super.onViewCreated(view, savedInstanceState)
     }
-
-
 }
