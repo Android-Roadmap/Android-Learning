@@ -30,9 +30,6 @@ fun savedLoginInfo(context: Context): SharedPreferences {
     )
 }
 
-
-
-
 inline fun <V : ViewModel> getViewModelFactory(crossinline getViewModelObject: () -> V): ViewModelProvider.Factory {
     return object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

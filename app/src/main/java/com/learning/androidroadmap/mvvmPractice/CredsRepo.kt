@@ -6,13 +6,17 @@ import com.learning.androidroadmap.mvvmPractice.databasecomponents.UserDatabase
 import com.learning.androidroadmap.mvvmPractice.databasecomponents.UserEntity
 import com.learning.androidroadmap.mvvmPractice.interfaces.PlaceHolder
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 import retrofit2.Retrofit
 import java.io.IOException
+import java.util.concurrent.Flow
 
 object CredsRepo: KoinComponent {
     private val retrofit : Retrofit by inject()
@@ -48,19 +52,6 @@ object CredsRepo: KoinComponent {
         }.apply()
     }
 
-    suspend fun getDataFromApi(): List<PostsData> {
-        var data = listOf<PostsData>()
-        val job = CoroutineScope(IO).launch {
-            data = try{
-                placeHolder.getData()
-            } catch (e : IOException){
-                emptyList()
-            }
-        }
-        job.join()
-        return data
-    }
-
     fun insertDataToDatabase(result: List<PostsData>) {
         CoroutineScope(IO).launch{
             for(i in result.indices){
@@ -91,4 +82,9 @@ object CredsRepo: KoinComponent {
         job.join()
         return result
         }
+
+    fun fetchDataFromApi() = flow {
+        val response = placeHolder.getData()
+        emit(response)
+    }.flowOn(Dispatchers.IO)
 }
